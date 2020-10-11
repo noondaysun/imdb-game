@@ -1,0 +1,8 @@
+{
+    "name": "Movie Trivia",
+    "short_name": "Movie Trivia",
+    "description": "Movie trivia game based on imdb Top 250",
+    "display": "standalone",
+    "scope": "/app/",
+    "icons": []
+}
