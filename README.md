@@ -13,6 +13,9 @@
 ```
 # Add 127.0.0.1 movie-trivia.noondaysun.org to hosts file
 # Eg. echo "127.0.0.1 movie-trivia.noondaysun.org movie-trivia" | tee -a /etc/hosts
+
+cp movie-trivia-game/.env.example movie-trivia-game/.env
+
 docker-compose up -d --build --force-recreate; docker-compose logs -f
 
 open http://movie-trivia.noondaysun.org
