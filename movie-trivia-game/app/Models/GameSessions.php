@@ -9,8 +9,12 @@ class GameSessions extends Model
 {
     use HasFactory;
 
-    public function getAvailableChallengerSlot()
+    /**
+     * @return Model
+     */
+    public function getAvailableChallengerSlot(): Model
     {
-        return Model::where()
+        return Model::whereNull('session_id_challenger')
+            ->firstOrFail();
     }
 }

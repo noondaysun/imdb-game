@@ -20,9 +20,6 @@ class CreateGameSessionsTable extends Migration
             $table->timestamps();
 
             $table->index(['session_id_initiator', 'session_id_challenger'])->unique();
-
-            $table->foreign('session_id_initiator')->references('id')->on('sessions');
-            $table->foreign('session_id_challenger')->references('id')->on('sessions');
         });
     }
 

@@ -3,6 +3,10 @@
     "short_name": "Movie Trivia",
     "description": "Movie trivia game based on imdb Top 250",
     "display": "standalone",
-    "scope": "/app/",
-    "icons": []
+    "scope": "/",
+    "icons": [{
+        "src": "/images/logo.svg",
+        "purpose": "maskable",
+        "sizes": "any"
+    }]
 }

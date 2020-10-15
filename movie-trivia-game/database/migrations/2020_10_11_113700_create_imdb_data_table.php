@@ -18,6 +18,7 @@ class CreateImdbDataTable extends Migration
             $table->string('title')->nullable(false);
             $table->smallInteger('year')->nullable(false);
             $table->string('poster')->nullable(false);
+            $table->float('rating', 5, 2)->nullable();
             $table->timestamps();
         });
     }

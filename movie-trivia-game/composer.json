@@ -56,7 +56,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "lint": "parallel-lint",
+        "lint": "parallel-lint app tests",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
@@ -68,7 +68,7 @@
             "@php artisan key:generate --ansi"
         ],
         "sniffs": "phpcs",
-        "stan": "phpstan -- analyse",
+        "stan": "phpstan analyse --memory-limit=256M",
         "test": "phpunit"
     }
 }

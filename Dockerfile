@@ -5,7 +5,7 @@ ARG password="#Secret1Password^"
 
 RUN sed -i 's/http/https/g' /etc/apk/repositories && \
     apk update && \
-    apk add --no-cache autoconf freetype-dev g++ gcc jpeg-dev libpng-dev libxml2-dev make zlib-dev && \
+    apk add --no-cache autoconf freetype-dev g++ gcc jpeg-dev libpng-dev libxml2-dev make zlib-dev nodejs npm && \
     apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS && \
     docker-php-ext-configure gd --with-freetype --with-jpeg && \
     apk del .phpize-deps && \
