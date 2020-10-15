@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Index;
+use App\Http\Controllers\Rounds;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', Index::class);
+Route::post('/challenger', [Rounds::class, 'challenger']);
+Route::post('/round', [Rounds::class, 'round']);
+Route::get('/results', [Rounds::class, 'results']);

@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Sessions extends Model
 {
     use HasFactory;
+
+    /** @var string */
+    protected $keyType = 'string';
 }
