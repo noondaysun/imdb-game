@@ -1,0 +1,44 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: linting
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+      # Docker
+      - name: DockerCompose Lint
+        uses: actions/checkout@v1
+        run: docker-compose config -q
+      - name: hadolint
+        uses: brpaz/hadolint-action@master
+      # PHP
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.4"
+          coverage: none
+          tools: composer
+      - name: Install PHP dependencies
+        run: |
+          composer install --prefer-dist --no-suggest --no-progress --no-ansi --no-interaction
+          echo "vendor/bin" >> $GITHUB_PATH
+      - name: Run linters
+        uses: wearerequired/lint-action@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          php_codesniffer: true
+          php_codesniffer_args: "-n"
+      - name: PHPUnit tests
+        uses: php-actions/phpunit@v9
+
