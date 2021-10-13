@@ -1,0 +1,50 @@
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: ashhelmacr.azurecr.io
+        username: ${{ secrets.acr_ashhelmacr_username }}
+        password: ${{ secrets.acr_ashhelmacr_password }}
+    
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t ashhelmacr.azurecr.io/ashaks:${{ github.sha }} --label dockerfile-path=Dockerfile
+        docker push ashhelmacr.azurecr.io/ashaks:${{ github.sha }}
+    
+    - uses: azure/k8s-set-context@v1
+      with:
+         kubeconfig: ${{ secrets.aks_ashaks_kubeConfig }}
+      id: login
+    
+    - name: Create namespace
+      run: |
+        namespacePresent=`kubectl get namespace | grep ashaks8b0e | wc -l`
+        if [ $namespacePresent -eq 0 ]
+        then
+            echo `kubectl create namespace ashaks8b0e`
+        fi
+
+    - uses: azure/k8s-create-secret@v1
+      with:
+        namespace: ashaks8b0e
+        container-registry-url: ashhelmacr.azurecr.io
+        container-registry-username: ${{ secrets.acr_ashhelmacr_username }}
+        container-registry-password: ${{ secrets.acr_ashhelmacr_password }}
+        secret-name: ashaksdockerauth
+       
+    - uses: azure/k8s-deploy@v1.2
+      with:
+        namespace: ashaks8b0e
+        manifests: |
+          manifests/deployment.yml
+          manifests/service.yml
+        images: |
+          ashhelmacr.azurecr.io/ashaks:${{ github.sha }}
+        imagepullsecrets: |
+          ashaksdockerauth
