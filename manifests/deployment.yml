@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "ashaks-b7e0"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "ashaks-b7e0"
+  template:
+    metadata:
+      labels:
+        app: "ashaks-b7e0"
+    spec:
+      containers:
+        - name: "ashaks-b7e0"
+          image: "ashhelmacr.azurecr.io/ashaks"
+          ports:
+          - containerPort: 80
